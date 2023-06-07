@@ -47,7 +47,7 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>,private val context:
         @SuppressLint("SetTextI18n")
         fun bind(vacancy: Vacancy) {
             binding.vacancyName.text = vacancy.vacancy.jobName
-            binding.salary.text = vacancy.vacancy.salary
+            binding.salary.text = vacancy.vacancy.salary + " руб."
             binding.region.text = vacancy.vacancy.region.name
             binding.employment.text = vacancy.vacancy.employment
         }

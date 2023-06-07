@@ -3,13 +3,22 @@ package com.example.workfinder
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.workfinder.adapters.VacanciesAdapter
+import com.example.workfinder.database.VacanciesDao
+import com.example.workfinder.database.VacanciesDatabase
+import com.example.workfinder.database.Vacancy
 import com.example.workfinder.databinding.ActivityMainBinding
 import com.example.workfinder.databinding.ActivityVacancyDetailBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class VacancyDetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityVacancyDetailBinding
-
+    private lateinit var vacanciesDao: VacanciesDao
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +27,7 @@ class VacancyDetailActivity : AppCompatActivity() {
         val receivedBundle = intent.extras
 
         val input = receivedBundle?.getString("duty")
-        val output = input
+        val duty = input
             ?.replace("<p>".toRegex(), "")
             ?.replace("</p>".toRegex(), "")
             ?.replace("<ul>".toRegex(), "")
@@ -26,12 +35,35 @@ class VacancyDetailActivity : AppCompatActivity() {
             ?.replace("<li>".toRegex(), "")
             ?.replace("</li>".toRegex(), "")
 
-        binding.duty.text = output
-        binding.salary.text = receivedBundle?.getString("salary") + " руб."
-        binding.source.text = receivedBundle?.getString("source")
-        binding.vacancyName.text = receivedBundle?.getString("jobName")
-        binding.contactPerson.text = receivedBundle?.getString("contact_person")
-        binding.email.text = receivedBundle?.getString("email")
-        binding.phone.text = receivedBundle?.getString("phone")
+        val salary = receivedBundle?.getString("salary") + " руб."
+        val source = receivedBundle?.getString("source")
+        val vacancyName = receivedBundle?.getString("jobName")
+        val contactPerson = receivedBundle?.getString("contact_person")
+        val email = receivedBundle?.getString("email")
+        val phone = receivedBundle?.getString("phone")
+
+        binding.duty.text = duty
+        binding.salary.text = salary
+        binding.source.text = source
+        binding.vacancyName.text = vacancyName
+        binding.contactPerson.text = contactPerson
+        binding.email.text = email
+        binding.phone.text = phone
+        binding.addToFollowedButton.visibility = View.VISIBLE
+
+        binding.addToFollowedButton.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    vacanciesDao = VacanciesDatabase
+                        .getDatabase(this@VacancyDetailActivity)
+                        .vacanciesDao()
+                    vacanciesDao.insertVacancy(Vacancy(jobName = vacancyName, salary = salary,
+                        contact_person = contactPerson, duty = duty, email = email,
+                        phone = phone, source = source))
+                }
+            }
+            Toast.makeText(this@VacancyDetailActivity
+                , "Вакансия добавлена в отслеживаемые", Toast.LENGTH_SHORT).show()
+        }
     }
 }
