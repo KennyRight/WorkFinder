@@ -26,7 +26,25 @@ class MainActivity : AppCompatActivity() {
         val call = service.getVacancies()
         fetchVacancies(call)
 
-        
+        binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                val call = if (query.isEmpty()) {
+                    service.getVacancies()
+                } else {
+                    service.searchVacancies(query)
+                }
+                fetchVacancies(call)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    val call = service.getVacancies()
+                    fetchVacancies(call)
+                }
+                return true
+            }
+        })
     }
 
     private fun fetchVacancies(call: Call<VacanciesResponse>) {
