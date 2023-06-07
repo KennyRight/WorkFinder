@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                />
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/region"

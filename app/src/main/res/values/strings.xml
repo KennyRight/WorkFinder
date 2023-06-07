@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorkFinder</string>
+    <string name="duty">Обязанности</string>
+    <string name="contacts">Контакты:</string>
 </resources>
