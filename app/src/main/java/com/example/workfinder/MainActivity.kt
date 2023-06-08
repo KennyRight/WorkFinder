@@ -1,7 +1,10 @@
 package com.example.workfinder
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +12,8 @@ import com.example.workfinder.adapters.VacanciesAdapter
 import com.example.workfinder.api.Instance
 import com.example.workfinder.api.VacanciesResponse
 import com.example.workfinder.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,5 +69,20 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.followed_vacancies -> {
+                val intent = Intent(this, FollowedVacanciesActivity::class.java)
+                this.startActivity(intent)
+            }
+        }
+        return true
     }
 }

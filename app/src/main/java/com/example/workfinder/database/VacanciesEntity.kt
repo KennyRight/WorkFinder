@@ -2,6 +2,7 @@ package com.example.workfinder.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.workfinder.api.Region
 
 @Entity(tableName = "vacancy")
 data class Vacancy(
@@ -12,5 +13,7 @@ data class Vacancy(
     val contact_person: String?,
     val email: String?,
     val phone: String?,
-    val source: String?
+    val source: String?,
+    val region: String?,
+    val employment: String?
 )

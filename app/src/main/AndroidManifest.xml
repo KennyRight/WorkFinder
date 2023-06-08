@@ -16,6 +16,9 @@
         android:theme="@style/Theme.WorkFinder"
         tools:targetApi="31">
         <activity
+            android:name=".FollowedVacanciesActivity"
+            android:exported="false" />
+        <activity
             android:name=".VacancyDetailActivity"
             android:exported="false" />
         <activity

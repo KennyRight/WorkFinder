@@ -35,15 +35,17 @@ class VacancyDetailActivity : AppCompatActivity() {
             ?.replace("<li>".toRegex(), "")
             ?.replace("</li>".toRegex(), "")
 
-        val salary = receivedBundle?.getString("salary") + " руб."
+        val salary = receivedBundle?.getString("salary")
         val source = receivedBundle?.getString("source")
         val vacancyName = receivedBundle?.getString("jobName")
         val contactPerson = receivedBundle?.getString("contact_person")
         val email = receivedBundle?.getString("email")
         val phone = receivedBundle?.getString("phone")
+        val region = receivedBundle?.getString("region")
+        val employment = receivedBundle?.getString("employment")
 
         binding.duty.text = duty
-        binding.salary.text = salary
+        binding.salary.text = salary + " руб."
         binding.source.text = source
         binding.vacancyName.text = vacancyName
         binding.contactPerson.text = contactPerson
@@ -59,7 +61,7 @@ class VacancyDetailActivity : AppCompatActivity() {
                         .vacanciesDao()
                     vacanciesDao.insertVacancy(Vacancy(jobName = vacancyName, salary = salary,
                         contact_person = contactPerson, duty = duty, email = email,
-                        phone = phone, source = source))
+                        phone = phone, source = source, employment = region, region = employment))
                 }
             }
             Toast.makeText(this@VacancyDetailActivity

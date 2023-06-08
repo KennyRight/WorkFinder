@@ -27,46 +27,46 @@ data class Vacancy(
 )
 
 data class VacancyDetails(
-    val id: String,
-    val source: String,
-    val region: Region,
-    val company: Company,
-    val creationDate: String,
-    val salary: String,
-    val salary_min: Int,
-    val salary_max: Int,
+    val id: String?,
+    val source: String?,
+    val region: Region?,
+    val company: Company?,
+    val creationDate: String?,
+    val salary: String?,
+    val salary_min: Int?,
+    val salary_max: Int?,
     @SerializedName("job-name")
-    val jobName: String,
-    val vacancyUrl: String,
-    val employment: String,
-    val schedule: String,
-    val duty: String,
-    val category: Category,
-    val requirement: Requirement,
-    val addresses: Addresses,
-    val social_protected: String,
-    val term: Term,
-    val contact_list: List<Contact>,
-    val contact_person: String,
-    val work_places: Int,
-    val code_profession: String,
-    val currency: String
+    val jobName: String?,
+    val vacancyUrl: String?,
+    val employment: String?,
+    val schedule: String?,
+    val duty: String?,
+    val category: Category?,
+    val requirement: Requirement?,
+    val addresses: Addresses?,
+    val social_protected: String?,
+    val term: Term?,
+    val contact_list: List<Contact>?,
+    val contact_person: String?,
+    val work_places: Int?,
+    val code_profession: String?,
+    val currency: String?
 )
 
 data class Region(
     val region_code: String,
-    val name: String
+    val name: String?
 )
 
 data class Company(
     val companycode: String,
-    val email: String,
+    val email: String?,
     val hr_agency: Boolean,
     val inn: String,
     val kpp: String,
-    val name: String,
+    val name: String?,
     val ogrn: String,
-    val phone: String,
+    val phone: String?,
     val url: String
 )
 
