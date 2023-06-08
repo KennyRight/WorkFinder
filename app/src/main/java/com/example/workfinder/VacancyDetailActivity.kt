@@ -43,6 +43,7 @@ class VacancyDetailActivity : AppCompatActivity() {
         val phone = receivedBundle?.getString("phone")
         val region = receivedBundle?.getString("region")
         val employment = receivedBundle?.getString("employment")
+        val visibility = receivedBundle?.getString("visibility")
 
         binding.duty.text = duty
         binding.salary.text = salary + " руб."
@@ -51,7 +52,9 @@ class VacancyDetailActivity : AppCompatActivity() {
         binding.contactPerson.text = contactPerson
         binding.email.text = email
         binding.phone.text = phone
-        binding.addToFollowedButton.visibility = View.VISIBLE
+        if (visibility == "visible") {
+            binding.addToFollowedButton.visibility = View.VISIBLE
+        }
 
         binding.addToFollowedButton.setOnClickListener {
             lifecycleScope.launch {

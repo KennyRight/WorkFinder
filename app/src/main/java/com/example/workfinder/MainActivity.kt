@@ -1,10 +1,11 @@
 package com.example.workfinder
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,8 +20,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var orientationEventListener: OrientationEventListener
     private lateinit var vacanciesAdapter: VacanciesAdapter
+    companion object {
+        lateinit var binding: ActivityMainBinding
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,6 +53,30 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
+
+        orientationEventListener = object : OrientationEventListener(this) {
+            override fun onOrientationChanged(orientation: Int) {
+                // Обрабатываем изменение ориентации экрана
+                if (orientation == ORIENTATION_UNKNOWN) {
+                    return
+                }
+
+                val rotation = windowManager.defaultDisplay.rotation
+                val newOrientation = when (rotation) {
+                    Surface.ROTATION_0 -> Configuration.ORIENTATION_PORTRAIT
+                    Surface.ROTATION_90 -> Configuration.ORIENTATION_LANDSCAPE
+                    Surface.ROTATION_180 -> Configuration.ORIENTATION_PORTRAIT
+                    Surface.ROTATION_270 -> Configuration.ORIENTATION_LANDSCAPE
+                    else -> Configuration.ORIENTATION_UNDEFINED
+                }
+
+                // Выполняем действия при изменении ориентации экрана
+                handleOrientationChange(newOrientation)
+            }
+        }
+
+        // Запускаем слушатель событий
+        orientationEventListener.enable()
     }
 
     private fun fetchVacancies(call: Call<VacanciesResponse>) {
@@ -84,5 +112,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    private fun handleOrientationChange(orientation: Int) {
+        // Пример: Блокируем ориентацию на портретную или ландшафтную, в зависимости от текущей ориентации
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.rightSideBar.visibility = View.GONE
+        }
     }
 }
