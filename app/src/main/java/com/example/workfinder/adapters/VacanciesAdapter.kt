@@ -18,12 +18,13 @@ import com.example.workfinder.data.api.VacancyDetails
 import com.example.workfinder.data.database.VacanciesDao
 import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.databinding.JobItemBinding
+import com.example.workfinder.domain.models.VacancyDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context: Context) :
+class VacanciesAdapter(private val vacancies: List<VacancyDomain>, private val context: Context) :
     RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
     private lateinit var vacanciesDao: VacanciesDao
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,15 +38,15 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
         holder.bind(vacancy)
 
         val bundle = Bundle()
-        bundle.putString("jobName", vacancy.vacancy.jobName)
-        bundle.putString("source", vacancy.vacancy.company?.name)
-        bundle.putString("duty", vacancy.vacancy.duty)
-        bundle.putString("salary", vacancy.vacancy.salary)
-        bundle.putString("contact_person", vacancy.vacancy.contact_person)
-        bundle.putString("email", vacancy.vacancy.company?.email)
-        bundle.putString("phone", vacancy.vacancy.company?.phone)
-        bundle.putString("region", vacancy.vacancy.region?.name)
-        bundle.putString("employment", vacancy.vacancy.employment)
+        bundle.putString("jobName", vacancy.jobName)
+        bundle.putString("source", vacancy.source)
+        bundle.putString("duty", vacancy.duty)
+        bundle.putString("salary", vacancy.salary)
+        bundle.putString("contact_person", vacancy.contact_person)
+        bundle.putString("email", vacancy.email)
+        bundle.putString("phone", vacancy.phone)
+        bundle.putString("region", vacancy.region)
+        bundle.putString("employment", vacancy.employment)
         if (context is MainActivity) {
             bundle.putString("visibility", "visible")
         } else {
@@ -69,13 +70,13 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
                 if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     if (context is MainActivity) {
                         MainActivity.binding.rightSideBar.visibility = View.VISIBLE
-                        MainActivity.binding.vacancyName.text = vacancy.vacancy.jobName
-                        MainActivity.binding.source.text = vacancy.vacancy.company?.name
-                        MainActivity.binding.salary.text = vacancy.vacancy.salary + " руб."
-                        MainActivity.binding.duty.text = vacancy.vacancy.duty
-                        MainActivity.binding.email.text = vacancy.vacancy.company?.email
-                        MainActivity.binding.phone.text = vacancy.vacancy.company?.phone
-                        MainActivity.binding.contactPerson.text = vacancy.vacancy.contact_person
+                        MainActivity.binding.vacancyName.text = vacancy.jobName
+                        MainActivity.binding.source.text = vacancy.source
+                        MainActivity.binding.salary.text = vacancy.salary + " руб."
+                        MainActivity.binding.duty.text = vacancy.duty
+                        MainActivity.binding.email.text = vacancy.email
+                        MainActivity.binding.phone.text = vacancy.phone
+                        MainActivity.binding.contactPerson.text = vacancy.contact_person
                         MainActivity.binding.addToFollowedButton.visibility = View.VISIBLE
                         MainActivity.binding.addToFollowedButton.setOnClickListener {
                             GlobalScope.launch {
@@ -84,15 +85,15 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
                                     .vacanciesDao()
                                 vacanciesDao.insertVacancy(
                                     com.example.workfinder.data.database.Vacancy(
-                                        jobName = vacancy.vacancy.jobName,
-                                        salary = vacancy.vacancy.salary,
-                                        contact_person = vacancy.vacancy.contact_person,
-                                        duty = vacancy.vacancy.duty,
-                                        email = vacancy.vacancy.company?.email,
-                                        phone = vacancy.vacancy.company?.phone,
-                                        source = vacancy.vacancy.company?.name,
-                                        employment = vacancy.vacancy.employment,
-                                        region = vacancy.vacancy.region?.name
+                                        jobName = vacancy.jobName,
+                                        salary = vacancy.salary,
+                                        contact_person = vacancy.contact_person,
+                                        duty = vacancy.duty,
+                                        email = vacancy.email,
+                                        phone = vacancy.phone,
+                                        source = vacancy.source,
+                                        employment = vacancy.employment,
+                                        region = vacancy.region
                                     )
                                 )
 
@@ -103,13 +104,13 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
                     }
                     if (context is FollowedVacanciesActivity) {
                         FollowedVacanciesActivity.binding.rightSideBar.visibility = View.VISIBLE
-                        FollowedVacanciesActivity.binding.vacancyName.text = vacancy.vacancy.jobName
-                        FollowedVacanciesActivity.binding.source.text = vacancy.vacancy.source
-                        FollowedVacanciesActivity.binding.salary.text = vacancy.vacancy.salary + " руб."
-                        FollowedVacanciesActivity.binding.duty.text = vacancy.vacancy.duty
-                        FollowedVacanciesActivity.binding.email.text = vacancy.vacancy.company?.email
-                        FollowedVacanciesActivity.binding.phone.text = vacancy.vacancy.company?.phone
-                        FollowedVacanciesActivity.binding.contactPerson.text = vacancy.vacancy.contact_person
+                        FollowedVacanciesActivity.binding.vacancyName.text = vacancy.jobName
+                        FollowedVacanciesActivity.binding.source.text = vacancy.source
+                        FollowedVacanciesActivity.binding.salary.text = vacancy.salary + " руб."
+                        FollowedVacanciesActivity.binding.duty.text = vacancy.duty
+                        FollowedVacanciesActivity.binding.email.text = vacancy.email
+                        FollowedVacanciesActivity.binding.phone.text = vacancy.phone
+                        FollowedVacanciesActivity.binding.contactPerson.text = vacancy.contact_person
                     }
                 }
             }
@@ -124,11 +125,11 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
     inner class ViewHolder(private val binding: JobItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(vacancy: Vacancy) {
-            binding.vacancyName.text = vacancy.vacancy.jobName
-            binding.salary.text = vacancy.vacancy.salary + " руб."
-            binding.region.text = vacancy.vacancy.region!!.name
-            binding.employment.text = vacancy.vacancy.employment
+        fun bind(vacancy: VacancyDomain) {
+            binding.vacancyName.text = vacancy.jobName
+            binding.salary.text = vacancy.salary + " руб."
+            binding.region.text = vacancy.region
+            binding.employment.text = vacancy.employment
             if (context is FollowedVacanciesActivity) {
                 binding.deleteFromFollowedButton.visibility = View.VISIBLE
             }
@@ -137,7 +138,7 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
                     vacanciesDao = VacanciesDatabase
                         .getDatabase(context)
                         .vacanciesDao()
-                    vacancy.vacancy.id?.toInt()?.let { it1 -> vacanciesDao.deleteVacancyById(it1) }
+                    vacanciesDao.deleteVacancyById(vacancy.id)
 
                 }
                 if (context is FollowedVacanciesActivity) {

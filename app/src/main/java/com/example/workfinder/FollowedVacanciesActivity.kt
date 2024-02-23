@@ -9,7 +9,6 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workfinder.adapters.VacanciesAdapter
-import com.example.workfinder.api.*
 import com.example.workfinder.data.api.Addresses
 import com.example.workfinder.data.api.Category
 import com.example.workfinder.data.api.Company
@@ -91,8 +90,8 @@ class FollowedVacanciesActivity : AppCompatActivity() {
                     )
                 }
                 runOnUiThread {
-                    vacanciesAdapter =
-                        VacanciesAdapter(vacancies, this@FollowedVacanciesActivity)
+//                    vacanciesAdapter =
+//                        VacanciesAdapter(vacancies, this@FollowedVacanciesActivity)
                     binding.vacanciesList.adapter = vacanciesAdapter
                     binding.vacanciesList.layoutManager =
                         LinearLayoutManager(this@FollowedVacanciesActivity)

@@ -14,6 +14,7 @@ import com.example.workfinder.adapters.VacanciesAdapter
 import com.example.workfinder.data.api.Instance
 import com.example.workfinder.data.api.VacanciesResponse
 import com.example.workfinder.databinding.ActivityMainBinding
+import com.example.workfinder.domain.models.VacancyDomain
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val service = Instance.api
         val call = service.getVacancies()
-        fetchVacancies(call)
+//        fetchVacancies(call)
 
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -42,14 +43,14 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     service.searchVacancies(query)
                 }
-                fetchVacancies(call)
+//                fetchVacancies(call)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
                     val call = service.getVacancies()
-                    fetchVacancies(call)
+//                    fetchVacancies(call)
                 }
                 return true
             }
@@ -80,28 +81,12 @@ class MainActivity : AppCompatActivity() {
         orientationEventListener.enable()
     }
 
-    private fun fetchVacancies(call: Call<VacanciesResponse>) {
-        call.enqueue(object : Callback<VacanciesResponse> {
-            override fun onResponse(call: Call<VacanciesResponse>, response: Response<VacanciesResponse>) {
-                if (response.isSuccessful) {
-                    val response = response.body()
-                    val vacancies = response?.results?.vacancies
-                    if (vacancies != null) {
-                        vacanciesAdapter = VacanciesAdapter(vacancies, this@MainActivity)
-                        binding.vacanciesList.adapter = vacanciesAdapter
-                        binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
-                    }
+    private fun fetchVacancies(response: List<VacancyDomain>) {
+        val vacancies = response
+        vacanciesAdapter = VacanciesAdapter(vacancies, this@MainActivity)
+        binding.vacanciesList.adapter = vacanciesAdapter
+        binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
 
-                } else {
-                    Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<VacanciesResponse>, t: Throwable) {
-                Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_LONG).show()
-                t.message?.let { Log.e("wgh", it) }
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
