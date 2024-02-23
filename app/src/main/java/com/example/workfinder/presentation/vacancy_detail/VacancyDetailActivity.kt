@@ -1,4 +1,4 @@
-package com.example.workfinder
+package com.example.workfinder.presentation.vacancy_detail
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.example.workfinder.adapters.VacanciesAdapter
 import com.example.workfinder.data.database.VacanciesDao
 import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.data.database.Vacancy
-import com.example.workfinder.databinding.ActivityMainBinding
 import com.example.workfinder.databinding.ActivityVacancyDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

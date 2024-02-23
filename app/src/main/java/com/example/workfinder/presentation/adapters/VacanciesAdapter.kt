@@ -1,4 +1,4 @@
-package com.example.workfinder.adapters
+package com.example.workfinder.presentation.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,22 +7,16 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.example.workfinder.FollowedVacanciesActivity
-import com.example.workfinder.MainActivity
-import com.example.workfinder.VacancyDetailActivity
-import com.example.workfinder.data.api.Vacancy
-import com.example.workfinder.data.api.VacancyDetails
+import com.example.workfinder.presentation.followed_vacancies.FollowedVacanciesActivity
+import com.example.workfinder.presentation.main.MainActivity
+import com.example.workfinder.presentation.vacancy_detail.VacancyDetailActivity
 import com.example.workfinder.data.database.VacanciesDao
 import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.databinding.JobItemBinding
 import com.example.workfinder.domain.models.VacancyDomain
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class VacanciesAdapter(private val vacancies: List<VacancyDomain>, private val context: Context) :
     RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {

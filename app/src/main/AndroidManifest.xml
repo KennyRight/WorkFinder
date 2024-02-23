@@ -17,15 +17,15 @@
         android:theme="@style/Theme.WorkFinder"
         tools:targetApi="31">
         <activity
-            android:name=".FollowedVacanciesActivity"
+            android:name=".presentation.followed_vacancies.FollowedVacanciesActivity"
             android:exported="false"
             android:screenOrientation="sensor"/>
         <activity
-            android:name=".VacancyDetailActivity"
+            android:name=".presentation.vacancy_detail.VacancyDetailActivity"
             android:exported="false"
             android:screenOrientation="sensor"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:screenOrientation="sensor"
             android:configChanges="keyboardHidden|orientation|screenSize">

@@ -1,4 +1,4 @@
-package com.example.workfinder
+package com.example.workfinder.presentation.followed_vacancies
 
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import android.view.Surface
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.workfinder.adapters.VacanciesAdapter
+import com.example.workfinder.presentation.adapters.VacanciesAdapter
 import com.example.workfinder.data.api.Addresses
 import com.example.workfinder.data.api.Category
 import com.example.workfinder.data.api.Company

@@ -6,8 +6,8 @@ import retrofit2.http.GET
 
 interface ApiService {
     @GET("vacancies?offset=1&limit=50")
-    fun getVacancies(): VacanciesResponse
+    suspend fun getVacancies(): VacanciesResponse
 
     @GET("vacancies?offset=1&limit=50")
-    fun searchVacancies(@Query("text") query: String): VacanciesResponse
+    suspend fun searchVacancies(@Query("text") query: String): VacanciesResponse
 }

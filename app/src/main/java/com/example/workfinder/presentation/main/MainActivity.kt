@@ -1,29 +1,25 @@
-package com.example.workfinder
+package com.example.workfinder.presentation.main
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.workfinder.adapters.VacanciesAdapter
-import com.example.workfinder.data.api.Instance
-import com.example.workfinder.data.api.VacanciesResponse
+import com.example.workfinder.R
+import com.example.workfinder.presentation.adapters.VacanciesAdapter
 import com.example.workfinder.databinding.ActivityMainBinding
 import com.example.workfinder.domain.models.VacancyDomain
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.workfinder.presentation.followed_vacancies.FollowedVacanciesActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var orientationEventListener: OrientationEventListener
     private lateinit var vacanciesAdapter: VacanciesAdapter
+    private val viewModel: MainViewModel by viewModels()
     companion object {
         lateinit var binding: ActivityMainBinding
     }
@@ -32,26 +28,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val service = Instance.api
-        val call = service.getVacancies()
-//        fetchVacancies(call)
+        viewModel.vacancyList.observe(this) { list ->
+            setVacancies(list)
+        }
+
+        viewModel.fetchVacancies()
 
         binding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                val call = if (query.isEmpty()) {
-                    service.getVacancies()
+
+                if (query.isEmpty()) {
+                    viewModel.fetchVacancies()
                 } else {
-                    service.searchVacancies(query)
+                    viewModel.searchVacancies(query)
                 }
-//                fetchVacancies(call)
+
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
+
                 if (newText.isEmpty()) {
-                    val call = service.getVacancies()
-//                    fetchVacancies(call)
+                    viewModel.fetchVacancies()
                 }
+
                 return true
             }
         })
@@ -81,9 +81,8 @@ class MainActivity : AppCompatActivity() {
         orientationEventListener.enable()
     }
 
-    private fun fetchVacancies(response: List<VacancyDomain>) {
-        val vacancies = response
-        vacanciesAdapter = VacanciesAdapter(vacancies, this@MainActivity)
+    private fun setVacancies(response: List<VacancyDomain>) {
+        vacanciesAdapter = VacanciesAdapter(response, this@MainActivity)
         binding.vacanciesList.adapter = vacanciesAdapter
         binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
 
