@@ -1,22 +1,18 @@
 package com.example.workfinder
 
-import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
-import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workfinder.adapters.VacanciesAdapter
 import com.example.workfinder.api.*
 import com.example.workfinder.database.VacanciesDao
 import com.example.workfinder.database.VacanciesDatabase
-import com.example.workfinder.database.Vacancy
 import com.example.workfinder.databinding.ActivityFollowedVacanciesBinding
-import com.example.workfinder.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -1,15 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.workfinder"
         minSdk 29
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -51,5 +52,15 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.0"
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.20"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
 
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation "androidx.fragment:fragment-ktx:1.6.2"
+
+}
+
+kapt {
+    correctErrorTypes = true
 }

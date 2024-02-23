@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -85,9 +86,12 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val response = response.body()
                     val vacancies = response?.results?.vacancies
-                    vacanciesAdapter = vacancies?.let { VacanciesAdapter(it, this@MainActivity) }!!
-                    binding.vacanciesList.adapter = vacanciesAdapter
-                    binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
+                    if (vacancies != null) {
+                        vacanciesAdapter = VacanciesAdapter(vacancies, this@MainActivity)
+                        binding.vacanciesList.adapter = vacanciesAdapter
+                        binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
+                    }
+
                 } else {
                     Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
@@ -95,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<VacanciesResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, t.toString(), Toast.LENGTH_LONG).show()
+                t.message?.let { Log.e("wgh", it) }
             }
         })
     }

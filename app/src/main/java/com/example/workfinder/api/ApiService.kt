@@ -8,6 +8,6 @@ interface ApiService {
     @GET("vacancies?offset=1&limit=50")
     fun getVacancies(): Call<VacanciesResponse>
 
-    @GET("vacancies")
+    @GET("vacancies?offset=1&limit=50")
     fun searchVacancies(@Query("text") query: String): Call<VacanciesResponse>
 }
