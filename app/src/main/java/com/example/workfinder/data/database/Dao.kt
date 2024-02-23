@@ -1,4 +1,4 @@
-package com.example.workfinder.database
+package com.example.workfinder.data.database
 
 import androidx.room.*
 
@@ -11,7 +11,6 @@ interface VacanciesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertVacancy(vacancy: Vacancy)
-
 
     @Query("DELETE FROM vacancy WHERE id = :vacancyId")
     fun deleteVacancyById(vacancyId: Int)

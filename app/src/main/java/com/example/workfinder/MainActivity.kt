@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workfinder.adapters.VacanciesAdapter
-import com.example.workfinder.api.Instance
-import com.example.workfinder.api.VacanciesResponse
+import com.example.workfinder.data.api.Instance
+import com.example.workfinder.data.api.VacanciesResponse
 import com.example.workfinder.databinding.ActivityMainBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

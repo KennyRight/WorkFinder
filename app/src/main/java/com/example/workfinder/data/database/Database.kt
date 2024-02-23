@@ -1,4 +1,4 @@
-package com.example.workfinder.database
+package com.example.workfinder.data.database
 
 import android.content.Context
 import androidx.room.Database

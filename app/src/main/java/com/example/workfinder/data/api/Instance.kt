@@ -1,4 +1,4 @@
-package com.example.workfinder.api
+package com.example.workfinder.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

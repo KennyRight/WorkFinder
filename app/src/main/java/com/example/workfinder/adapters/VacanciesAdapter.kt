@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.workfinder.FollowedVacanciesActivity
 import com.example.workfinder.MainActivity
 import com.example.workfinder.VacancyDetailActivity
-import com.example.workfinder.api.Vacancy
-import com.example.workfinder.api.VacancyDetails
-import com.example.workfinder.database.VacanciesDao
-import com.example.workfinder.database.VacanciesDatabase
+import com.example.workfinder.data.api.Vacancy
+import com.example.workfinder.data.api.VacancyDetails
+import com.example.workfinder.data.database.VacanciesDao
+import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.databinding.JobItemBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -83,7 +83,7 @@ class VacanciesAdapter(private val vacancies: List<Vacancy>, private val context
                                     .getDatabase(context)
                                     .vacanciesDao()
                                 vacanciesDao.insertVacancy(
-                                    com.example.workfinder.database.Vacancy(
+                                    com.example.workfinder.data.database.Vacancy(
                                         jobName = vacancy.vacancy.jobName,
                                         salary = vacancy.vacancy.salary,
                                         contact_person = vacancy.vacancy.contact_person,

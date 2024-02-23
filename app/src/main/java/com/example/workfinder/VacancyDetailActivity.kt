@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.workfinder.adapters.VacanciesAdapter
-import com.example.workfinder.database.VacanciesDao
-import com.example.workfinder.database.VacanciesDatabase
-import com.example.workfinder.database.Vacancy
+import com.example.workfinder.data.database.VacanciesDao
+import com.example.workfinder.data.database.VacanciesDatabase
+import com.example.workfinder.data.database.Vacancy
 import com.example.workfinder.databinding.ActivityMainBinding
 import com.example.workfinder.databinding.ActivityVacancyDetailBinding
 import kotlinx.coroutines.Dispatchers
@@ -62,9 +62,11 @@ class VacancyDetailActivity : AppCompatActivity() {
                     vacanciesDao = VacanciesDatabase
                         .getDatabase(this@VacancyDetailActivity)
                         .vacanciesDao()
-                    vacanciesDao.insertVacancy(Vacancy(jobName = vacancyName, salary = salary,
+                    vacanciesDao.insertVacancy(
+                        Vacancy(jobName = vacancyName, salary = salary,
                         contact_person = contactPerson, duty = duty, email = email,
-                        phone = phone, source = source, employment = region, region = employment))
+                        phone = phone, source = source, employment = region, region = employment)
+                    )
                 }
             }
             Toast.makeText(this@VacancyDetailActivity

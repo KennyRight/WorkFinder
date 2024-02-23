@@ -1,8 +1,8 @@
-package com.example.workfinder.database
+package com.example.workfinder.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.workfinder.api.Region
+import com.example.workfinder.data.api.Region
 
 @Entity(tableName = "vacancy")
 data class Vacancy(

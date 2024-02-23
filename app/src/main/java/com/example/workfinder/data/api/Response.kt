@@ -1,4 +1,4 @@
-package com.example.workfinder.api
+package com.example.workfinder.data.api
 
 import com.google.gson.annotations.SerializedName
 

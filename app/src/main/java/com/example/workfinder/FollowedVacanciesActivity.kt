@@ -10,8 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.workfinder.adapters.VacanciesAdapter
 import com.example.workfinder.api.*
-import com.example.workfinder.database.VacanciesDao
-import com.example.workfinder.database.VacanciesDatabase
+import com.example.workfinder.data.api.Addresses
+import com.example.workfinder.data.api.Category
+import com.example.workfinder.data.api.Company
+import com.example.workfinder.data.api.Region
+import com.example.workfinder.data.api.Requirement
+import com.example.workfinder.data.api.Term
+import com.example.workfinder.data.api.Vacancy
+import com.example.workfinder.data.api.VacancyDetails
+import com.example.workfinder.data.database.VacanciesDao
+import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.databinding.ActivityFollowedVacanciesBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,11 +44,11 @@ class FollowedVacanciesActivity : AppCompatActivity() {
                     .getDatabase(this@FollowedVacanciesActivity)
                     .vacanciesDao()
                 val vacanciesDB = vacanciesDao.getAllVacancies()
-                val vacanciesList = emptyList<com.example.workfinder.api.Vacancy>()
+                val vacanciesList = emptyList<Vacancy>()
                 val vacancies = vacanciesList.toMutableList()
                 vacanciesDB.forEach { vacancy ->
                     vacancies.add(
-                        com.example.workfinder.api.Vacancy(
+                        Vacancy(
                             VacancyDetails(
                                 id = vacancy.id.toString(),
                                 source = "",
