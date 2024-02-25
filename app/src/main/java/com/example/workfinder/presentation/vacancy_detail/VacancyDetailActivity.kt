@@ -5,18 +5,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.workfinder.data.database.VacanciesDao
 import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.data.database.Vacancy
 import com.example.workfinder.databinding.ActivityVacancyDetailBinding
+import com.example.workfinder.domain.models.VacancyDomain
+import com.example.workfinder.presentation.main.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class VacancyDetailActivity : AppCompatActivity() {
-    lateinit var binding: ActivityVacancyDetailBinding
+    private lateinit var binding: ActivityVacancyDetailBinding
     private lateinit var vacanciesDao: VacanciesDao
+    private val viewModel: VacancyDetailViewModel by viewModels()
+    private lateinit var vacancy: VacancyDomain
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +55,19 @@ class VacancyDetailActivity : AppCompatActivity() {
         val employment = receivedBundle?.getString("employment")
         val visibility = receivedBundle?.getString("visibility")
 
+        vacancy = VacancyDomain(
+            id = 0,
+            jobName = vacancyName,
+            duty = duty,
+            salary = salary,
+            contact_person = contactPerson,
+            email = email,
+            phone = phone,
+            source = source,
+            region = region,
+            employment = employment
+        )
+
         binding.duty.text = duty
         binding.salary.text = salary + " руб."
         binding.source.text = source
@@ -59,18 +80,7 @@ class VacancyDetailActivity : AppCompatActivity() {
         }
 
         binding.addToFollowedButton.setOnClickListener {
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    vacanciesDao = VacanciesDatabase
-                        .getDatabase(this@VacancyDetailActivity)
-                        .vacanciesDao()
-                    vacanciesDao.insertVacancy(
-                        Vacancy(jobName = vacancyName, salary = salary,
-                        contact_person = contactPerson, duty = duty, email = email,
-                        phone = phone, source = source, employment = region, region = employment)
-                    )
-                }
-            }
+            viewModel.saveVacancy(vacancy)
             Toast.makeText(this@VacancyDetailActivity
                 , "Вакансия добавлена в отслеживаемые", Toast.LENGTH_SHORT).show()
         }
