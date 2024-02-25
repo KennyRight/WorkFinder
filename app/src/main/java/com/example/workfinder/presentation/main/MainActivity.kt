@@ -20,9 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var orientationEventListener: OrientationEventListener
     private lateinit var vacanciesAdapter: VacanciesAdapter
     private val viewModel: MainViewModel by viewModels()
-    companion object {
-        lateinit var binding: ActivityMainBinding
-    }
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -82,9 +81,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setVacancies(response: List<VacancyDomain>) {
-        vacanciesAdapter = VacanciesAdapter(response, this@MainActivity)
+        vacanciesAdapter = VacanciesAdapter(response, this, binding, viewModel)
         binding.vacanciesList.adapter = vacanciesAdapter
-        binding.vacanciesList.layoutManager = LinearLayoutManager(this@MainActivity)
+        binding.vacanciesList.layoutManager = LinearLayoutManager(this)
 
     }
 

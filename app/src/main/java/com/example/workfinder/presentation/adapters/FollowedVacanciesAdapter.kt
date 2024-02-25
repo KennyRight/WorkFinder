@@ -14,29 +14,22 @@ import com.example.workfinder.presentation.vacancy_detail.VacancyDetailActivity
 import com.example.workfinder.data.database.VacanciesDao
 import com.example.workfinder.data.database.VacanciesDatabase
 import com.example.workfinder.databinding.ActivityFollowedVacanciesBinding
-import com.example.workfinder.databinding.ActivityMainBinding
 import com.example.workfinder.databinding.JobItemBinding
 import com.example.workfinder.domain.models.VacancyDomain
 import com.example.workfinder.presentation.followed_vacancies.FollowedVacanciesViewModel
-import com.example.workfinder.presentation.main.MainViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class VacanciesAdapter(
+class FollowedVacanciesAdapter(
     private val vacancies: List<VacancyDomain>,
     private val context: Context,
-    private val binding: ActivityMainBinding,
-    private val viewModel: MainViewModel
+    private val binding: ActivityFollowedVacanciesBinding,
+    private val viewModel: FollowedVacanciesViewModel
 ) :
-    RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
-
+    RecyclerView.Adapter<FollowedVacanciesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = JobItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return vacancies.size
     }
 
     @SuppressLint("SetTextI18n")
@@ -75,26 +68,24 @@ class VacanciesAdapter(
                 }
             } else if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) {
                 if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    if (context is MainActivity) {
-                        binding.rightSideBar.visibility = View.VISIBLE
-                        binding.vacancyName.text = vacancy.jobName
-                        binding.source.text = vacancy.source
-                        binding.salary.text = vacancy.salary + " руб."
-                        binding.duty.text = vacancy.duty
-                        binding.email.text = vacancy.email
-                        binding.phone.text = vacancy.phone
-                        binding.contactPerson.text = vacancy.contact_person
-                        binding.addToFollowedButton.visibility = View.VISIBLE
-                        binding.addToFollowedButton.setOnClickListener {
-                            viewModel.saveVacancy(vacancy)
-                            Toast.makeText(context
-                                , "Вакансия добавлена в отслеживаемые", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+
+                    binding.rightSideBar.visibility = View.VISIBLE
+                    binding.vacancyName.text = vacancy.jobName
+                    binding.source.text = vacancy.source
+                    binding.salary.text = vacancy.salary + " руб."
+                    binding.duty.text = vacancy.duty
+                    binding.email.text = vacancy.email
+                    binding.phone.text = vacancy.phone
+                    binding.contactPerson.text = vacancy.contact_person
+
                 }
             }
 
         }
+    }
+
+    override fun getItemCount(): Int {
+        return vacancies.size
     }
 
     inner class ViewHolder(private val binding: JobItemBinding) :
@@ -105,6 +96,12 @@ class VacanciesAdapter(
             binding.salary.text = vacancy.salary + " руб."
             binding.region.text = vacancy.region
             binding.employment.text = vacancy.employment
+            if (context is FollowedVacanciesActivity) {
+                binding.deleteFromFollowedButton.visibility = View.VISIBLE
+            }
+            binding.deleteFromFollowedButton.setOnClickListener {
+                viewModel.deleteVacancy(vacancy.id)
+            }
         }
     }
 }

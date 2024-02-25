@@ -40,7 +40,7 @@ fun vacancyFromDatabaseMapper(vacancy: com.example.workfinder.data.database.Vaca
         region = vacancy.region,
         salary = vacancy.salary,
         source = vacancy.source,
-        id = 0
+        id = vacancy.id
     )
 }
 

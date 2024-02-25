@@ -32,6 +32,10 @@ class VacancyDetailActivity : AppCompatActivity() {
             ?.replace("</ul>".toRegex(), "")
             ?.replace("<li>".toRegex(), "")
             ?.replace("</li>".toRegex(), "")
+            ?.replace("<br>".toRegex(), "")
+            ?.replace("</br>".toRegex(), "")
+            ?.replace("<b>".toRegex(), "")
+            ?.replace("</b>".toRegex(), "")
 
         val salary = receivedBundle?.getString("salary")
         val source = receivedBundle?.getString("source")
